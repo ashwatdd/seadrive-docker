@@ -25,4 +25,5 @@ clean_cache_interval = $SEAFILE_CACHE_CLEAN_INTERVAL
 EOF
 
 # Start SeaDrive
-exec seadrive -c /root/seadrive.conf -f -d /root/.seadrive/ -o allow_other,default_permissions /mnt/seadrive
+mkdir -p /root/.seadrive/
+exec seadrive -c /root/seadrive.conf -f -d /root/.seadrive/ -o allow_other,default_permissions /mnt/

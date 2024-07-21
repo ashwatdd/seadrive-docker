@@ -20,9 +20,6 @@ RUN apt-get update && apt-get install -y \
     seadrive-daemon \
     && rm -rf /var/lib/apt/lists/*
 
-# Create directories
-RUN mkdir -p /mnt/seadrive /root/.seadrive/
-
 # Copy the launch script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
