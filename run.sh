@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo podman run \
+sudo podman run -it \
     -d \
     --name seadrive \
     --device /dev/fuse \
@@ -9,4 +9,5 @@ sudo podman run \
     -e SEAFILE_SERVER_URL="" \
     -e SEAFILE_USERNAME="" \
     -e SEAFILE_PASSWORD="" \
+    --replace \
     seadrive

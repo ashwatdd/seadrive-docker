@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     lsb-release \
+    fuse \
     jq \
     curl \
     uuid-runtime \
@@ -20,10 +21,6 @@ RUN apt-get update && apt-get install -y \
     seadrive-daemon \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the launch script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 # Set environment variables
 ENV SEAFILE_SERVER_URL=""
 ENV SEAFILE_USERNAME=""
@@ -33,6 +30,10 @@ ENV SEAFILE_CACHE_SIZE="10GB"
 ENV SEAFILE_CACHE_CLEAN_INTERVAL="10"
 ENV PUID="1000"
 ENV PGID="1000"
+
+# Copy the launch script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Run the launch script
 ENTRYPOINT ["/entrypoint.sh"]

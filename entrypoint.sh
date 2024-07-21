@@ -1,5 +1,25 @@
 #!/bin/sh
 
+# Shutdown trap
+shutdown() {
+    echo "Shutting down SeaDrive..."
+    
+    # Send SIGTERM to seadrive process
+    kill -TERM "$SEADRIVE_PID" 2>/dev/null
+
+    sleep 2
+        
+    # Unmount FUSE filesystem
+    fusermount -u /mnt/
+    
+    echo "SeaDrive shutdown complete"
+    exit 0
+}
+
+trap shutdown 15 2
+
+
+
 # Get token from Seafile server
 TOKEN=$(curl -s -d "username=$SEAFILE_USERNAME" -d "password=$SEAFILE_PASSWORD" "$SEAFILE_SERVER_URL/api2/auth-token/" | jq -r .token)
 
@@ -26,4 +46,7 @@ EOF
 
 # Start SeaDrive
 mkdir -p /root/.seadrive/
-exec seadrive -c /root/seadrive.conf -f -d /root/.seadrive/ -o allow_other,default_permissions /mnt/
+seadrive -c /root/seadrive.conf -f -d /root/.seadrive/ -o allow_other,default_permissions /mnt/ &
+
+SEADRIVE_PID=$!
+wait $SEADRIVE_PID
